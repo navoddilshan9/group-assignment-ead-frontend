@@ -24,28 +24,11 @@ const drawerWidth = 240
 function DrawerAppBar(props) {
   const { window } = props
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [state, setState] = useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  })
 
   const trigger = useScrollTrigger()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
-  }
-
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return
-    }
-
-    setState({ ...state, [anchor]: open })
   }
 
   const drawer = (
