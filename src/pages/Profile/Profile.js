@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import RadioBox from '../../components/RadioBox/Title'
 import Gender from '../../components/RadioBox/Gender'
+import Role from '../../components/RadioBox/Role'
 
 function Copyright(props) {
   return (
@@ -34,7 +35,7 @@ function Copyright(props) {
 
 const theme = createTheme()
 
-export default function PersonalInfo({ changeStep, step }) {
+export default function Profile() {
   const navigate = useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -45,17 +46,15 @@ export default function PersonalInfo({ changeStep, step }) {
     //   email,
     // }
     // axios.post()
+    alert('as')
   }
 
   return (
-    <>
-      <Avatar sx={{ m: 1 }}>
-        <LockOutlinedIcon />
-      </Avatar>
+    <Box component='form' noValidate onSubmit={handleSubmit}>
       <Typography component='h1' variant='h5'>
-        Personal Information
+        Update Account details
       </Typography>
-      <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Box>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <RadioBox />
@@ -139,15 +138,107 @@ export default function PersonalInfo({ changeStep, step }) {
             />
           </Grid>
         </Grid>
+      </Box>
+      <Box>
+        <Grid container spacing={2} sx={{ mt: 3 }}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              autoComplete='given-name'
+              name='street1'
+              required={true}
+              fullWidth
+              id='street1'
+              label='Street 1'
+              autoFocus
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required={true}
+              fullWidth
+              id='street2'
+              label='Street 2'
+              name='lastName'
+              autoComplete='family-name'
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              required={true}
+              fullWidth
+              id='town'
+              label='Town'
+              name='town'
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              required={true}
+              fullWidth
+              id='city'
+              label='City'
+              name='city'
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required={true}
+              fullWidth
+              id='postalCode'
+              label='Postal Code'
+              name='postalCode'
+            />
+          </Grid>
+        </Grid>
+      </Box>
+      <Box>
+        <Grid container spacing={2} sx={{ mt: 3 }}>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              required={true}
+              fullWidth
+              name='email'
+              label='Email'
+              type='email'
+              id='email'
+              autoComplete='email'
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required={true}
+              fullWidth
+              name='password'
+              label='Password'
+              type='password'
+              id='password'
+              autoComplete='new-password'
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required={true}
+              fullWidth
+              name='re-password'
+              label='Re-Password'
+              type='password'
+              id='re-password'
+              autoComplete='new-password'
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Role />
+          </Grid>
+        </Grid>
         <Grid container justifyContent='space-between'>
           <Grid item>
             <Button
               fullWidth
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
-              disabled
+              onClick={() => {}}
             >
-              previous
+              Discard changes
             </Button>
           </Grid>
           <Grid item>
@@ -156,15 +247,12 @@ export default function PersonalInfo({ changeStep, step }) {
               fullWidth
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
-              onClick={() => {
-                changeStep('plus')
-              }}
             >
-              Next
+              Update
             </Button>
           </Grid>
         </Grid>
       </Box>
-    </>
+    </Box>
   )
 }

@@ -28,6 +28,9 @@ import HomePage from '../../pages/Home/HomePage'
 import SignIn from '../../pages/SignIn/SignIn'
 import SignUp from '../../pages/SignUp/SignUp'
 import ForgetPassword from '../../pages/ForgetPassword/ForgetPassword'
+import Users from '../../pages/Users/Users'
+import Account from '../../pages/User/User'
+import Profile from '../../pages/Profile/Profile'
 
 const drawerWidth = 240
 
@@ -118,6 +121,9 @@ function DrawerAppBar(props) {
                   marginRight: '10px',
                   fontWeight: 'bold',
                 }}
+                onClick={() => {
+                  navigate('/users')
+                }}
               >
                 Users
               </Button>
@@ -173,7 +179,7 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box>
+      <Box sx={{ width: '80%', margin: 'auto', marginTop: '5%' }}>
         <Toolbar />
         <Routes>
           <Route exact path='/' element={<HomePage />}></Route>
@@ -184,6 +190,9 @@ function DrawerAppBar(props) {
             path='/forgetpassword'
             element={<ForgetPassword />}
           ></Route>
+          <Route exact path='/users' element={<Users />}></Route>
+          <Route exact path='/account/:id' element={<Account />}></Route>
+          <Route exact path='/profile' element={<Profile />}></Route>
         </Routes>
       </Box>
     </Box>

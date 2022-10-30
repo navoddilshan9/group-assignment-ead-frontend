@@ -9,7 +9,7 @@ export default function Title() {
   const [title, setTitle] = useState('MR')
   return (
     <FormControl>
-      <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
+      <FormLabel id='demo-row-radio-buttons-group-label'>Title</FormLabel>
       <RadioGroup
         row
         aria-labelledby='demo-row-radio-buttons-group-label'
