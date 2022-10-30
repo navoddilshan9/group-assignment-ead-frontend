@@ -1,9 +1,12 @@
+import { BrowserRouter as Router } from 'react-router-dom'
 import DrawerAppBar from './components/AppBar/AppBar'
 
 function App() {
   return (
     <div>
-      <DrawerAppBar />
+      <Router>
+        <DrawerAppBar />
+      </Router>
     </div>
   )
 }

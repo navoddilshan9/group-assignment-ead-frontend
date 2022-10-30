@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -14,15 +19,21 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-
+import Avatar from '@mui/material/Avatar'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { Slide, useScrollTrigger } from '@mui/material'
 
 import HomePage from '../../pages/Home/HomePage'
+import SignIn from '../../pages/SignIn/SignIn'
+import SignUp from '../../pages/SignUp/SignUp'
+import ForgetPassword from '../../pages/ForgetPassword/ForgetPassword'
 
 const drawerWidth = 240
 
 function DrawerAppBar(props) {
   const { window } = props
+  const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const trigger = useScrollTrigger()
@@ -40,12 +51,22 @@ function DrawerAppBar(props) {
       <List>
         <ListItem>
           <ListItemButton sx={{ textAlign: 'center' }}>
-            <ListItemText primary='Item 01' />
+            <ListItemText primary='Loan' />
           </ListItemButton>
         </ListItem>
         <ListItem>
           <ListItemButton sx={{ textAlign: 'center' }}>
-            <ListItemText primary='Item 02' />
+            <ListItemText primary='Users' />
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemText primary='Login' />
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemText primary='Profile' />
           </ListItemButton>
         </ListItem>
       </List>
@@ -89,7 +110,7 @@ function DrawerAppBar(props) {
                   fontWeight: 'bold',
                 }}
               >
-                Item 01
+                Loan
               </Button>
               <Button
                 sx={{
@@ -98,7 +119,33 @@ function DrawerAppBar(props) {
                   fontWeight: 'bold',
                 }}
               >
-                Item 02
+                Users
+              </Button>
+              <Button
+                sx={{
+                  color: '#fff',
+                  marginRight: '10px',
+                  fontWeight: 'bold',
+                }}
+                onClick={() => {
+                  navigate('/login')
+                }}
+              >
+                Login
+              </Button>
+              <Button
+                sx={{
+                  color: '#fff',
+                  marginRight: '10px',
+                  fontWeight: 'bold',
+                }}
+                onClick={() => {
+                  navigate('/profile')
+                }}
+              >
+                <Avatar sx={{ bgcolor: '#2399C2' }}>
+                  <AccountCircleIcon />
+                </Avatar>
               </Button>
             </Box>
           </Toolbar>
@@ -128,11 +175,16 @@ function DrawerAppBar(props) {
       </Box>
       <Box>
         <Toolbar />
-        <Router>
-          <Routes>
-            <Route exact path='/' element={<HomePage />}></Route>
-          </Routes>
-        </Router>
+        <Routes>
+          <Route exact path='/' element={<HomePage />}></Route>
+          <Route exact path='/login' element={<SignIn />}></Route>
+          <Route exact path='/register' element={<SignUp />}></Route>
+          <Route
+            exact
+            path='/forgetpassword'
+            element={<ForgetPassword />}
+          ></Route>
+        </Routes>
       </Box>
     </Box>
   )
