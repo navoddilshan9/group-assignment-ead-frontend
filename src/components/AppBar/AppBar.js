@@ -28,6 +28,7 @@ import HomePage from '../../pages/Home/HomePage'
 import SignIn from '../../pages/SignIn/SignIn'
 import SignUp from '../../pages/SignUp/SignUp'
 import ForgetPassword from '../../pages/ForgetPassword/ForgetPassword'
+import Loan from '../../pages/Loan/Loan'
 
 const drawerWidth = 240
 
@@ -109,6 +110,9 @@ function DrawerAppBar(props) {
                   marginRight: '10px',
                   fontWeight: 'bold',
                 }}
+                onClick = {() => {
+                  navigate('/loan')
+                }}
               >
                 Loan
               </Button>
@@ -178,6 +182,7 @@ function DrawerAppBar(props) {
         <Routes>
           <Route exact path='/' element={<HomePage />}></Route>
           <Route exact path='/login' element={<SignIn />}></Route>
+          <Route exact path='/loan' element={<Loan />}></Route>
           <Route exact path='/register' element={<SignUp />}></Route>
           <Route
             exact
