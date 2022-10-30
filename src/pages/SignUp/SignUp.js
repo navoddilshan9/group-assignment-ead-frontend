@@ -1,5 +1,6 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -11,6 +12,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+import RadioBox from '../../components/RadioBox/Title'
+import PersonalInfo from './PersonalInfo'
+import ConatctInfo from './ContactInfo'
+import AccountInfo from './AccountInfo'
 
 function Copyright(props) {
   return (
@@ -32,14 +38,32 @@ const theme = createTheme()
 
 export default function SignUp() {
   const navigate = useNavigate()
+  const [step, setStep] = useState(1)
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
+    // const body = {
+    //   lastName,
+    //   password,
+    //   email,
+    // }
+    // axios.post()
   }
-
+  const changeStep = (mode) => {
+    if (mode === 'plus' && step != 3) {
+      setStep((prevStep) => prevStep + 1)
+    } else if (mode == 'minus' && step != 1) {
+      setStep((prevStep) => prevStep - 1)
+    } else {
+      handleForm()
+    }
+  }
+  const handleForm = () => {
+    alert('asd')
+  }
   return (
     <ThemeProvider theme={theme}>
-      <Container component='main' maxWidth='xs'>
+      <Container component='main' sx={{ width: '75%' }}>
         <CssBaseline />
         <Box
           sx={{
@@ -49,89 +73,21 @@ export default function SignUp() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1 }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component='h1' variant='h5'>
-            Sign up
-          </Typography>
-          <Box
-            component='form'
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete='given-name'
-                  name='firstName'
-                  required={true}
-                  fullWidth
-                  id='firstName'
-                  label='First Name'
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required={true}
-                  fullWidth
-                  id='lastName'
-                  label='Last Name'
-                  name='lastName'
-                  autoComplete='family-name'
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required={true}
-                  fullWidth
-                  id='email'
-                  label='Email Address'
-                  name='email'
-                  autoComplete='email'
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required={true}
-                  fullWidth
-                  name='password'
-                  label='Password'
-                  type='password'
-                  id='password'
-                  autoComplete='new-password'
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required={true}
-                  fullWidth
-                  name='re-password'
-                  label='Re-Password'
-                  type='password'
-                  id='re-password'
-                  autoComplete='new-password'
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent='flex-end'>
-              <Grid item>
-                <Link to='/login' style={{ textDecoration: 'none' }}>
-                  Already have an account?
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+          {step === 1 ? (
+            <>
+              <PersonalInfo changeStep={changeStep} />
+            </>
+          ) : step === 2 ? (
+            <>
+              <ConatctInfo changeStep={changeStep} />
+            </>
+          ) : step === 3 ? (
+            <>
+              <AccountInfo changeStep={changeStep} step={step} />
+            </>
+          ) : (
+            <></>
+          )}
         </Box>
       </Container>
     </ThemeProvider>
