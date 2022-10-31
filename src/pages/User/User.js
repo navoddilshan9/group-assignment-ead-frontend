@@ -239,7 +239,6 @@ export default function Account({ changeStep, step }) {
               required={true}
               fullWidth
               id='street1'
-              label='Street 1'
               autoFocus
               value={userDetails.address.street1}
               disabled={true}
@@ -250,7 +249,6 @@ export default function Account({ changeStep, step }) {
               required={true}
               fullWidth
               id='street2'
-              label='Street 2'
               name='street2'
               autoComplete='family-name'
               value={userDetails.address.street2}
@@ -262,7 +260,6 @@ export default function Account({ changeStep, step }) {
               required={true}
               fullWidth
               id='town'
-              label='Town'
               name='town'
               value={userDetails.address.town}
               disabled={true}
@@ -273,7 +270,6 @@ export default function Account({ changeStep, step }) {
               required={true}
               fullWidth
               id='city'
-              label='City'
               name='city'
               value={userDetails.address.city}
               disabled={true}
@@ -284,7 +280,6 @@ export default function Account({ changeStep, step }) {
               required={true}
               fullWidth
               id='postalCode'
-              label='Postal Code'
               name='postalCode'
               value={userDetails.address.postalCode}
               disabled={true}

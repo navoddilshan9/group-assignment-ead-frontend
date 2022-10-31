@@ -83,7 +83,7 @@ export default function SignUp() {
         .post('/api/v1/users/save', userDetails)
         .then((res) => {
           console.log(res)
-          navigate('/login')
+          navigate('/')
         })
         .catch((err) => {
           console.log(err)

@@ -33,7 +33,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import HeaderCard from '../../components/HeaderCard/HeaderCard'
 import UserContext from '../../Utils/UserContext'
-
+import DeleteIcon from '@mui/icons-material/Delete'
 function TablePaginationActions(props) {
   const theme = useTheme()
   const { count, page, rowsPerPage, onPageChange } = props
@@ -144,7 +144,22 @@ export default function PaginationTable({ orders, getOrders }) {
         console.log(errr)
       })
   }
-
+  const deleteUser = (userId) => {
+    axios
+      .delete(`/api/v1/users/${userId}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('v_'), //the token is a variable which holds the token
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        getUsers()
+        alert('User deleted')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
@@ -197,6 +212,13 @@ export default function PaginationTable({ orders, getOrders }) {
             ) : (
               <></>
             )}
+            {user.role == 'MANAGER' ? (
+              <>
+                <TableCell style={{ width: 60 }} align='center'></TableCell>
+              </>
+            ) : (
+              <></>
+            )}
           </TableRow>
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -232,6 +254,19 @@ export default function PaginationTable({ orders, getOrders }) {
                     <CreditScoreIcon
                       onClick={() => {
                         navigate(`/loan/${row.userId}`)
+                      }}
+                    />
+                  </TableCell>
+                </>
+              ) : (
+                <></>
+              )}
+              {user.role == 'MANAGER' ? (
+                <>
+                  <TableCell style={{ width: 60 }} align='center'>
+                    <DeleteIcon
+                      onClick={() => {
+                        deleteUser(row.userId)
                       }}
                     />
                   </TableCell>
