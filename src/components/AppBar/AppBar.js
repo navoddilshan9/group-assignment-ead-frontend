@@ -33,6 +33,7 @@ import Account from '../../pages/User/User'
 import Profile from '../../pages/Profile/Profile'
 import Footer from '../Footer/Footer'
 import UserContext from '../../Utils/UserContext'
+import Accounts from "../../pages/Account/Account";
 
 const drawerWidth = 240
 
@@ -57,6 +58,11 @@ function DrawerAppBar(props) {
         <ListItem>
           <ListItemButton sx={{ textAlign: 'center' }}>
             <ListItemText primary='Loan' />
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemText primary="Account" />
           </ListItemButton>
         </ListItem>
         <ListItem>
@@ -125,6 +131,18 @@ function DrawerAppBar(props) {
                     Logout
                   </Button>
                   <Button
+                sx={{
+                  color: "#fff",
+                  marginRight: "10px",
+                  fontWeight: "bold",
+                }}
+                onClick={() => {
+                  navigate("/accounts");
+                }}
+              >
+                Account
+              </Button>
+                  <Button
                     sx={{
                       color: '#fff',
                       marginRight: '10px',
@@ -188,6 +206,7 @@ function DrawerAppBar(props) {
               <Route exact path='/register' element={<SignUp />}></Route>
               <Route exact path='/account/:id' element={<Account />}></Route>
               <Route exact path='/profile' element={<Profile />}></Route>
+              <Route exact path="/accounts" element={<Accounts />}></Route>
             </>
           ) : (
             <>
