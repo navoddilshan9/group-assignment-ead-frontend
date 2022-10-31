@@ -9,7 +9,7 @@ export default function Role({ handleChange, userDetails }) {
   return (
     <FormControl>
       <FormLabel id='demo-row-radio-buttons-group-label'>
-        Select Your Section
+        Select Employee Section
       </FormLabel>
       <RadioGroup
         row

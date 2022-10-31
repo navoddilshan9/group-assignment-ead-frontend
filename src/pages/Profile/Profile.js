@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import Avatar from '@mui/material/Avatar'
@@ -17,6 +17,7 @@ import RadioBox from '../../components/RadioBox/Title'
 import Gender from '../../components/RadioBox/Gender'
 import Role from '../../components/RadioBox/Role'
 import DatePicker from '../../components/DatePicker/DatePicker'
+import UserContext from '../../Utils/UserContext'
 function Copyright(props) {
   return (
     <Typography
@@ -37,7 +38,7 @@ const theme = createTheme()
 
 export default function Account({ changeStep, step }) {
   const navigate = useNavigate()
-  const { id } = useParams()
+  const { user } = useContext(UserContext)
 
   const [userDetails, setUserDetails] = useState({
     userId: '',
@@ -90,7 +91,7 @@ export default function Account({ changeStep, step }) {
 
   const getUserDetails = async () => {
     await axios
-      .get(`/api/v1/users/getUserById?user_Id=635af7079101286369a457f8`, {
+      .get(`/api/v1/users/getUserById?user_Id=${user.userId}`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('v_'), //the token is a variable which holds the token
         },
@@ -108,7 +109,7 @@ export default function Account({ changeStep, step }) {
           otherName: currentuser?.otherName || '',
           NIC: currentuser?.NIC || '',
           passportNo: currentuser?.passportNo || '',
-          birthday: new Date('2022-11-01T21:11:54'),
+          birthday: currentuser?.birthday || new Date('2022-11-01T21:11:54'),
           status: currentuser?.status || 'SINGLE',
           noDependents: currentuser?.noDependents || '',
           address: currentuser?.address || '',
@@ -221,6 +222,7 @@ export default function Account({ changeStep, step }) {
               id='noDependents'
               label='No of Dependents'
               name='noDependents'
+              type='number'
               value={userDetails.noDependents}
               onChange={handleChange('noDependents')}
             />
@@ -283,6 +285,7 @@ export default function Account({ changeStep, step }) {
               id='postalCode'
               label='Postal Code'
               name='postalCode'
+              type='number'
               value={userDetails.address.postalCode}
               disabled={true}
             />

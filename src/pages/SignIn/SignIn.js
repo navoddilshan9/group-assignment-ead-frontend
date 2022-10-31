@@ -46,10 +46,11 @@ export default function SignIn() {
       .then((res) => {
         console.log(res)
         localStorage.setItem('v_', res.data?.jwtToken)
-        navigate('/users')
+        navigate('/')
+        window.location.reload(false)
       })
       .catch((err) => {
-        console.log(err)
+        alert('Invalid user credentials')
       })
   }
 
@@ -117,11 +118,6 @@ export default function SignIn() {
                   variant='body2'
                 >
                   Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to='/register' style={{ textDecoration: 'none' }}>
-                  {"Don't have an account?"}
                 </Link>
               </Grid>
             </Grid>

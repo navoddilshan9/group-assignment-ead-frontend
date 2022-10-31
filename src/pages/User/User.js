@@ -17,6 +17,7 @@ import RadioBox from '../../components/RadioBox/Title'
 import Gender from '../../components/RadioBox/Gender'
 import Role from '../../components/RadioBox/Role'
 import DatePicker from '../../components/DatePicker/DatePicker'
+import HeaderCard from '../../components/HeaderCard/HeaderCard'
 function Copyright(props) {
   return (
     <Typography
@@ -96,7 +97,6 @@ export default function Account({ changeStep, step }) {
         },
       })
       .then((res) => {
-        console.log(res)
         let currentuser = res.data.message
         setUserDetails({
           userId: currentuser?.userId || '',
@@ -131,11 +131,14 @@ export default function Account({ changeStep, step }) {
   }, [])
   return (
     <Box>
-      <Typography component='h1' variant='h5'>
-        Update Account details
-      </Typography>
+      <HeaderCard
+        title={'You are accessing ' + id + ' Account'}
+        subheader={
+          'You can get all details about the user and also update the user details '
+        }
+      />
       <Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ marginTop: '10px' }}>
           <Grid item xs={12} sm={12}>
             <RadioBox handleChange={handleChange} userDetails={userDetails} />
           </Grid>

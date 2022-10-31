@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -32,6 +32,7 @@ import Users from '../../pages/Users/Users'
 import Account from '../../pages/User/User'
 import Profile from '../../pages/Profile/Profile'
 import Footer from '../Footer/Footer'
+import UserContext from '../../Utils/UserContext'
 
 const drawerWidth = 240
 
@@ -39,7 +40,7 @@ function DrawerAppBar(props) {
   const { window } = props
   const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
-
+  const { user } = useContext(UserContext)
   const trigger = useScrollTrigger()
 
   const handleDrawerToggle = () => {
@@ -107,53 +108,51 @@ function DrawerAppBar(props) {
               {/* MUI */}
             </Typography>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Button
-                sx={{
-                  color: '#fff',
-                  marginRight: '10px',
-                  fontWeight: 'bold',
-                }}
-              >
-                Loan
-              </Button>
-              <Button
-                sx={{
-                  color: '#fff',
-                  marginRight: '10px',
-                  fontWeight: 'bold',
-                }}
-                onClick={() => {
-                  navigate('/users')
-                }}
-              >
-                Users
-              </Button>
-              <Button
-                sx={{
-                  color: '#fff',
-                  marginRight: '10px',
-                  fontWeight: 'bold',
-                }}
-                onClick={() => {
-                  navigate('/login')
-                }}
-              >
-                Login
-              </Button>
-              <Button
-                sx={{
-                  color: '#fff',
-                  marginRight: '10px',
-                  fontWeight: 'bold',
-                }}
-                onClick={() => {
-                  navigate('/profile')
-                }}
-              >
-                <Avatar sx={{ bgcolor: '#2399C2' }}>
-                  <AccountCircleIcon />
-                </Avatar>
-              </Button>
+              {user.userId ? (
+                <>
+                  <Button
+                    sx={{
+                      color: '#fff',
+                      marginRight: '10px',
+                      fontWeight: 'bold',
+                    }}
+                    onClick={() => {
+                      localStorage.clear()
+                      navigate('/')
+                      document.location.reload()
+                    }}
+                  >
+                    Logout
+                  </Button>
+                  <Button
+                    sx={{
+                      color: '#fff',
+                      marginRight: '10px',
+                      fontWeight: 'bold',
+                    }}
+                    onClick={() => {
+                      navigate('/profile')
+                    }}
+                  >
+                    Profile
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    sx={{
+                      color: '#fff',
+                      marginRight: '10px',
+                      fontWeight: 'bold',
+                    }}
+                    onClick={() => {
+                      navigate('/login')
+                    }}
+                  >
+                    Login
+                  </Button>
+                </>
+              )}
             </Box>
           </Toolbar>
         </AppBar>
@@ -183,17 +182,24 @@ function DrawerAppBar(props) {
       <Box sx={{ width: '50%', margin: 'auto', marginTop: '5%' }}>
         <Toolbar />
         <Routes>
-          <Route exact path='/' element={<HomePage />}></Route>
-          <Route exact path='/login' element={<SignIn />}></Route>
-          <Route exact path='/register' element={<SignUp />}></Route>
-          <Route
-            exact
-            path='/forgetpassword'
-            element={<ForgetPassword />}
-          ></Route>
-          <Route exact path='/users' element={<Users />}></Route>
-          <Route exact path='/account/:id' element={<Account />}></Route>
-          <Route exact path='/profile' element={<Profile />}></Route>
+          {user.userId != null && user.role != null ? (
+            <>
+              <Route exact path='/' element={<Users />}></Route>
+              <Route exact path='/register' element={<SignUp />}></Route>
+              <Route exact path='/account/:id' element={<Account />}></Route>
+              <Route exact path='/profile' element={<Profile />}></Route>
+            </>
+          ) : (
+            <>
+              <Route exact path='/' element={<HomePage />}></Route>
+              <Route exact path='/login' element={<SignIn />}></Route>
+              <Route
+                exact
+                path='/forgetpassword'
+                element={<ForgetPassword />}
+              ></Route>
+            </>
+          )}
         </Routes>
       </Box>
       {/* <Footer /> */}

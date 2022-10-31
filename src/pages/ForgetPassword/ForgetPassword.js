@@ -82,7 +82,7 @@ export default function ForgetPassword() {
             >
               Reset Password
             </Button>
-            <Grid container>
+            {/* <Grid container>
               <Grid item>
                 <Link
                   variant='body2'
@@ -92,7 +92,7 @@ export default function ForgetPassword() {
                   {"Don't have an account?"}
                 </Link>
               </Grid>
-            </Grid>
+            </Grid> */}
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
