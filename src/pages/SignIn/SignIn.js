@@ -45,9 +45,14 @@ export default function SignIn() {
       .post('/authenticate', body)
       .then((res) => {
         console.log(res)
-        localStorage.setItem('v_', res.data?.jwtToken)
-        navigate('/')
-        window.location.reload(false)
+        alert(res.data.success)
+        if (res.data.success === 'true') {
+          localStorage.setItem('v_', res.data?.message)
+          navigate('/')
+          window.location.reload(false)
+        } else {
+          alert('Invalid user credentials')
+        }
       })
       .catch((err) => {
         alert('Invalid user credentials')
