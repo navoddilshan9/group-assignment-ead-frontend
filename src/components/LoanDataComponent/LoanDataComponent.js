@@ -139,12 +139,14 @@ const LoanDataComponent = ({
         <TableCell align="center">{Installments}</TableCell>
         <TableCell align="center">{Status}</TableCell>
         <TableCell align="center">
-          <Button variant="outlined" size="medium" onClick={handleClickOpen}>
-            Update
-          </Button>
-          <Button variant="outlined" size="medium" onClick={deteleLoan}>
-            Delete
-          </Button>
+          <Stack spacing={2} direction="row" justifyContent="center">
+            <Button variant="outlined" size="medium" onClick={handleClickOpen}>
+              Update
+            </Button>
+            <Button variant="outlined" size="medium" onClick={deteleLoan}>
+              Delete
+            </Button>
+          </Stack>
         </TableCell>
       </TableRow>
       <Dialog open={open} onClose={handleClose}>
