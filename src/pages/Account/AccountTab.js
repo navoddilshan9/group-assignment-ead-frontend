@@ -26,6 +26,7 @@ import {
 } from "@mui/material";
 
 import HttpService from "../../httpService.js";
+import UserContext from "../../Utils/UserContext.js";
 
 function Copyright(props) {
   return (
@@ -54,6 +55,8 @@ const CustomTextField = styled(TextField)({
 
 export default function Account() {
   const navigate = useNavigate();
+  const { user } = React.useContext(UserContext);
+
   const [accTypes, setAccTypes] = React.useState([
     {
       accTypeId: "635f994f867a0d13721882e8",
@@ -369,6 +372,7 @@ export default function Account() {
                       Status
                     </InputLabel>
                     <Select
+                      disabled={user.userId && user.role != "MANAGER"}
                       defaultValue={accountDetails.active}
                       labelId="demo-simple-select-helper-label"
                       id="demo-simple-select-helper"
@@ -381,17 +385,21 @@ export default function Account() {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, backgroundColor: "#4caf50" }}
-                    onClick={updateAccountDetails}
-                  >
-                    Update
-                  </Button>
-                </Grid>
+                {user.userId && user.role == "MANAGER" && (
+                  <>
+                    <Grid item xs={12}>
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2, backgroundColor: "#4caf50" }}
+                        onClick={updateAccountDetails}
+                      >
+                        Update
+                      </Button>
+                    </Grid>
+                  </>
+                )}
               </>
             )}
           </Grid>
@@ -503,54 +511,59 @@ export default function Account() {
       </Card>
 
       {/* Delete Accounts Card */}
-      <Card
-        variant="elevation"
-        sx={{
-          overflow: "visible",
-          "& .MuiCardHeader-subheader	": {
-            color: "white",
-          },
-          width: "100%",
-          marginBottom: "20px",
-        }}
-      >
-        <CardHeader
-          sx={{
-            background: "linear-gradient(to right bottom, #ef5350, #d32f2f)",
-            marginLeft: "-20px",
-            marginRight: "-20px",
-            borderRadius: "5px",
-            color: "white",
-          }}
-          title={"Delete Accounts"}
-          subheader={"You can search and delete accounts with this section"}
-        />
-        <CardContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required={true}
-                fullWidth
-                value={deleteAccId}
-                id="email"
-                label="Account ID"
-                name="email"
-                onChange={handleDeleteAccIdChange}
-                autoComplete="email"
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2, backgroundColor: "#ef5350" }}
-            onClick={deleteAccount}
+      {user.userId && user.role == "MANAGER" && (
+        <>
+          <Card
+            variant="elevation"
+            sx={{
+              overflow: "visible",
+              "& .MuiCardHeader-subheader	": {
+                color: "white",
+              },
+              width: "100%",
+              marginBottom: "20px",
+            }}
           >
-            Delete
-          </Button>
-        </CardContent>
-      </Card>
+            <CardHeader
+              sx={{
+                background:
+                  "linear-gradient(to right bottom, #ef5350, #d32f2f)",
+                marginLeft: "-20px",
+                marginRight: "-20px",
+                borderRadius: "5px",
+                color: "white",
+              }}
+              title={"Delete Accounts"}
+              subheader={"You can search and delete accounts with this section"}
+            />
+            <CardContent>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    required={true}
+                    fullWidth
+                    value={deleteAccId}
+                    id="email"
+                    label="Account ID"
+                    name="email"
+                    onChange={handleDeleteAccIdChange}
+                    autoComplete="email"
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, backgroundColor: "#ef5350" }}
+                onClick={deleteAccount}
+              >
+                Delete
+              </Button>
+            </CardContent>
+          </Card>
+        </>
+      )}
     </Box>
   );
 }
