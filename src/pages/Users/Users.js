@@ -26,9 +26,12 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import Checkbox from '@mui/material/Checkbox'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import CreditScoreIcon from '@mui/icons-material/CreditScore'
 import IOSSwitche from '../../components/Switch/Switch'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import HeaderCard from '../../components/HeaderCard/HeaderCard'
 
 function TablePaginationActions(props) {
   const theme = useTheme()
@@ -155,6 +158,12 @@ export default function PaginationTable({ orders, getOrders }) {
 
   return (
     <TableContainer component={Paper}>
+      <HeaderCard
+        title={'All Users '}
+        subheader={
+          'You can find all the users.You can manage  every individual user accounts  and loans wich they have. '
+        }
+      />
       <Table sx={{ minWidth: 500 }} aria-label='custom pagination table'>
         <TableBody>
           <TableRow>
@@ -164,14 +173,14 @@ export default function PaginationTable({ orders, getOrders }) {
             <TableCell component='th' scope='row' align='center'>
               AC Holder Name
             </TableCell>
-            {/* <TableCell component='th' scope='row' align='left'>
-              Status
-            </TableCell> */}
             <TableCell component='th' scope='row' align='center'>
               Created At
             </TableCell>
-            <TableCell style={{ width: 360 }} align='center'>
-              View
+            <TableCell style={{ width: 60 }} align='center'>
+              View Account
+            </TableCell>
+            <TableCell style={{ width: 60 }} align='center'>
+              Loans
             </TableCell>
           </TableRow>
           {(rowsPerPage > 0
@@ -186,17 +195,20 @@ export default function PaginationTable({ orders, getOrders }) {
                 {/* {moment(row.createdAt).utc().format('YYYY-MM-DD')} */}
                 {row.fullName}
               </TableCell>
-              {/* <TableCell align='left'>
-                <IOSSwitche
-                  userId={row.userId}
-                  status={row?.isActivate}
-                  getUsers={getUsers}
-                />
-              </TableCell> */}
               <TableCell align='center'>2022-10-25</TableCell>
-
-              <TableCell style={{ width: 160 }} align='center'>
-                <VisibilityIcon
+              <TableCell
+                style={{ width: 60 }}
+                style={{ width: 60 }}
+                align='center'
+              >
+                <ManageAccountsIcon
+                  onClick={() => {
+                    navigate(`/account/${row.userId}`)
+                  }}
+                />
+              </TableCell>
+              <TableCell style={{ width: 60 }} align='center'>
+                <CreditScoreIcon
                   onClick={() => {
                     navigate(`/account/${row.userId}`)
                   }}
