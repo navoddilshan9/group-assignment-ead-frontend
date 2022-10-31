@@ -12,16 +12,30 @@ import Stack from "@mui/material/Stack";
 import { margin } from "@mui/system";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import { styled } from '@mui/material/styles';
-
+import { styled } from "@mui/material/styles";
+import { TableContainer } from "@mui/material";
+import {
+  Table,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableBody,
+} from "@mui/material";
 
 import LoanDataComponent from "../../components/LoanDataComponent/LoanDataComponent";
 const Loan = () => {
-  const [loanData, setLoanData] = useState({});
+  const [loanData, setLoanData] = useState([]);
   const [value, setValue] = React.useState("1");
+  const [customerId, setCustomerId] = useState("");
+  const [showTable, setShowTable] = useState(true);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleCustomerIdChange = (event, newValue) => {
+    console.log(event.target.value);
+    setCustomerId(event.target.value);
   };
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -31,10 +45,12 @@ const Loan = () => {
     textAlign: "center",
     color: theme.palette.text.secondary,
   }));
-  const getLoanDataByUserId = (id) => {
-    const uid = id;
+  const getLoanDataByUserId = () => {
+    setShowTable(false);
+    console.log(customerId);
+    const uid = customerId;
     axios
-      .get(`/loan/user/${uid}`)
+      .get(`http://localhost:8080/loan/user/${customerId}`)
       .then((res) => {
         console.log(res.data);
         setLoanData(res.data);
@@ -42,6 +58,10 @@ const Loan = () => {
       .catch((e) => {
         console.log(e);
       });
+  };
+
+  const con = () => {
+    console.log(loanData);
   };
   return (
     <>
@@ -62,53 +82,67 @@ const Loan = () => {
                   id="outlined-basic"
                   label="Enter Customer Id Here."
                   variant="outlined"
+                  onChange={handleCustomerIdChange}
                 />
               </div>
               <div align="center">
                 <Box sx={{ m: 2 }}>
                   {" "}
-                  <Button variant="contained">Search</Button>
+                  <Button variant="contained" onClick={getLoanDataByUserId}>
+                    Search
+                  </Button>
                 </Box>
               </div>
-              <div align="center">
-                <Grid container spacing={2}>
-                  <Grid item xs={2}>
-                    <Item align="center">
-                      <h5>LoanId</h5>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Item align="center">
-                      <h5>Amount</h5>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Item align="center">
-                      <h5>Type</h5>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Item align="center">
-                      <h5>Install</h5>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Item align="center">
-                      <h5>Status</h5>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Item align="center">
-                      <h5>Actions</h5>
-                    </Item>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Item align="center">
-                    <LoanDataComponent/>
-                    </Item>
-                  </Grid>
-                </Grid>
-              </div>
+
+              <div style={{ height: 10 }} />
+              <TableContainer component={Paper} hidden={showTable}>
+                <Table
+                  sx={{ minWidth: 650, backgroundColor: "#f3e5f5" }}
+                  size="small"
+                  aria-label="a dense table"
+                >
+                  <TableHead sx={{ backgroundColor: "#512da8" }}>
+                    <TableRow>
+                      <TableCell sx={{ color: "white" }}>LoanId</TableCell>
+                      <TableCell align="center" sx={{ color: "white" }}>
+                        Amount
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "white" }}>
+                        Type
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "white" }}>
+                        Installment
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "white" }}>
+                        Status
+                      </TableCell>
+                      <TableCell align="center" sx={{ color: "white" }}>
+                        Action
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {loanData != null ? (
+                      loanData.map((loanDetails) => (
+                        <LoanDataComponent
+                          LoanId={loanDetails.loanId}
+                          Amount={loanDetails.amount}
+                          Type={loanDetails.type}
+                          Installments={loanDetails.installments}
+                          Status={loanDetails.loanStatus}
+                          Description={loanDetails.description} 
+                          GuaranteeNIC={loanDetails.guaranteeNIC} 
+                          GuaranteeName={loanDetails.guaranteeName} 
+                          InterestRate={loanDetails.interestRate} 
+                          UserId={loanDetails.userId}
+                        />
+                      ))
+                    ) : (
+                      <></>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </div>
           </TabPanel>
         </TabContext>
