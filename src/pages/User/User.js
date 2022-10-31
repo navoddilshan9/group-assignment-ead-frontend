@@ -82,7 +82,7 @@ export default function Account({ changeStep, step }) {
       })
       .then((res) => {
         console.log(res)
-        navigate('/users')
+        navigate('/')
       })
       .catch((err) => {
         console.log(err)
@@ -108,7 +108,7 @@ export default function Account({ changeStep, step }) {
           otherName: currentuser?.otherName || '',
           NIC: currentuser?.NIC || '',
           passportNo: currentuser?.passportNo || '',
-          birthday: new Date('2022-11-01T21:11:54'),
+          birthday: currentuser?.birthday || new Date('2022-11-01T21:11:54'),
           status: currentuser?.status || 'SINGLE',
           noDependents: currentuser?.noDependents || '',
           address: currentuser?.address || '',
@@ -196,8 +196,8 @@ export default function Account({ changeStep, step }) {
               id='nic'
               label='NIC'
               name='nic'
-              value={userDetails.nic}
-              onChange={handleChange('nic')}
+              value={userDetails.NIC}
+              onChange={handleChange('NIC')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -207,8 +207,8 @@ export default function Account({ changeStep, step }) {
               id='passport'
               label='Passport No'
               name='passport'
-              value={userDetails.passport}
-              onChange={handleChange('passport')}
+              value={userDetails.passportNo}
+              onChange={handleChange('passportNo')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -294,45 +294,27 @@ export default function Account({ changeStep, step }) {
       </Box>
       <Box>
         <Grid container spacing={2} sx={{ mt: 3 }}>
-          {/* <Grid item xs={12} sm={12}>
+          <Grid item xs={6} sm={6}>
             <TextField
-              required={true}
               fullWidth
               name='email'
-              label='Email'
               type='email'
               id='email'
-              autoComplete='email'
-              value={userDetails.address.email}
+              value={userDetails.email}
               disabled={true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              required={true}
               fullWidth
               name='password'
-              label='Password'
               type='password'
               id='password'
               autoComplete='new-password'
-              value={userDetails.address.password}
+              value={userDetails.password}
               disabled={true}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required={true}
-              fullWidth
-              name='re-password'
-              label='Re-Password'
-              type='password'
-              id='re-password'
-              autoComplete='new-password'
-              value={userDetails.address.password}
-              disabled={true}
-            />
-          </Grid> */}
           <Grid item xs={12} sm={6}>
             <Role handleChange={handleChange} userDetails={userDetails} />
           </Grid>
@@ -344,7 +326,7 @@ export default function Account({ changeStep, step }) {
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
               onClick={() => {
-                navigate('/users')
+                navigate('/')
               }}
             >
               Discard changes

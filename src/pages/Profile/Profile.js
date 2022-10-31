@@ -82,7 +82,7 @@ export default function Account({ changeStep, step }) {
       })
       .then((res) => {
         console.log(res)
-        navigate('/users')
+        navigate('/')
       })
       .catch((err) => {
         console.log(err)
@@ -344,7 +344,7 @@ export default function Account({ changeStep, step }) {
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
               onClick={() => {
-                navigate('/users')
+                navigate('/')
               }}
             >
               Discard changes
