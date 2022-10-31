@@ -180,7 +180,7 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box sx={{ width: '80%', margin: 'auto', marginTop: '5%' }}>
+      <Box sx={{ width: '50%', margin: 'auto', marginTop: '5%' }}>
         <Toolbar />
         <Routes>
           <Route exact path='/' element={<HomePage />}></Route>
