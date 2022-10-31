@@ -19,6 +19,11 @@ export default function Role({ handleChange, userDetails }) {
         onChange={handleChange('role')}
       >
         <FormControlLabel
+          value='CUSTOMER'
+          control={<Radio />}
+          label='Front Desk'
+        />
+        <FormControlLabel
           value='FRONT_DESK'
           control={<Radio />}
           label='Front Desk'

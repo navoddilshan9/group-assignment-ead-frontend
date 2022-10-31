@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
@@ -32,7 +32,8 @@ import IOSSwitche from '../../components/Switch/Switch'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import HeaderCard from '../../components/HeaderCard/HeaderCard'
-
+import UserContext from '../../Utils/UserContext'
+import DeleteIcon from '@mui/icons-material/Delete'
 function TablePaginationActions(props) {
   const theme = useTheme()
   const { count, page, rowsPerPage, onPageChange } = props
@@ -122,8 +123,9 @@ const rearange = (users) => {
 export default function PaginationTable({ orders, getOrders }) {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
-  const [users, setUsers] = useState(null)
+  const [userList, setUsers] = useState(null)
   const navigate = useNavigate()
+  const { user } = useContext(UserContext)
   React.useEffect(() => {
     getUsers()
   }, [])
@@ -142,7 +144,22 @@ export default function PaginationTable({ orders, getOrders }) {
         console.log(errr)
       })
   }
-
+  const deleteUser = (userId) => {
+    axios
+      .delete(`/api/v1/users/${userId}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('v_'), //the token is a variable which holds the token
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        getUsers()
+        alert('User deleted')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
@@ -176,12 +193,32 @@ export default function PaginationTable({ orders, getOrders }) {
             <TableCell component='th' scope='row' align='center'>
               Created At
             </TableCell>
-            <TableCell style={{ width: 60 }} align='center'>
-              View Account
-            </TableCell>
-            <TableCell style={{ width: 60 }} align='center'>
-              Loans
-            </TableCell>
+            {user.role != 'LOAN_SECTION' ? (
+              <>
+                <TableCell style={{ width: 60 }} align='center'>
+                  Manage Account
+                </TableCell>
+              </>
+            ) : (
+              <></>
+            )}
+
+            {user.role == 'LOAN_SECTION' || user.role == 'MANAGER' ? (
+              <>
+                <TableCell style={{ width: 60 }} align='center'>
+                  Loans
+                </TableCell>
+              </>
+            ) : (
+              <></>
+            )}
+            {user.role == 'MANAGER' ? (
+              <>
+                <TableCell style={{ width: 60 }} align='center'></TableCell>
+              </>
+            ) : (
+              <></>
+            )}
           </TableRow>
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -195,25 +232,48 @@ export default function PaginationTable({ orders, getOrders }) {
                 {/* {moment(row.createdAt).utc().format('YYYY-MM-DD')} */}
                 {row.fullName}
               </TableCell>
+
               <TableCell align='center'>2022-10-25</TableCell>
-              <TableCell
-                style={{ width: 60 }}
-                style={{ width: 60 }}
-                align='center'
-              >
-                <ManageAccountsIcon
-                  onClick={() => {
-                    navigate(`/account/${row.userId}`)
-                  }}
-                />
-              </TableCell>
-              <TableCell style={{ width: 60 }} align='center'>
-                <CreditScoreIcon
-                  onClick={() => {
-                    navigate(`/account/${row.userId}`)
-                  }}
-                />
-              </TableCell>
+              {user.role != 'LOAN_SECTION' ? (
+                <>
+                  <TableCell style={{ width: 60 }} align='center'>
+                    <ManageAccountsIcon
+                      onClick={() => {
+                        navigate(`/account/${row.userId}`)
+                      }}
+                    />
+                  </TableCell>
+                </>
+              ) : (
+                <></>
+              )}
+
+              {user.role == 'LOAN_SECTION' || user.role == 'MANAGER' ? (
+                <>
+                  <TableCell style={{ width: 60 }} align='center'>
+                    <CreditScoreIcon
+                      onClick={() => {
+                        navigate(`/loan/${row.userId}`)
+                      }}
+                    />
+                  </TableCell>
+                </>
+              ) : (
+                <></>
+              )}
+              {user.role == 'MANAGER' ? (
+                <>
+                  <TableCell style={{ width: 60 }} align='center'>
+                    <DeleteIcon
+                      onClick={() => {
+                        deleteUser(row.userId)
+                      }}
+                    />
+                  </TableCell>
+                </>
+              ) : (
+                <></>
+              )}
             </TableRow>
           ))}
 

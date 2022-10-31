@@ -119,9 +119,19 @@ function DrawerAppBar(props) {
                 <>
                   <Button
                     sx={{
-                      color: "#fff",
-                      marginRight: "10px",
-                      fontWeight: "bold",
+
+                      color: '#fff',
+                      marginRight: '10px',
+                      fontSize: '10px',
+                    }}
+                  >
+                    You loagged in {user.role}
+                  </Button>
+                  <Button
+                    sx={{
+                      color: '#fff',
+                      marginRight: '10px',
+                      fontWeight: 'bold',
                     }}
                     onClick={() => {
                       localStorage.clear();
