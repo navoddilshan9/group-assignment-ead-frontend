@@ -44,8 +44,7 @@ export default function SignIn() {
     await axios
       .post('/authenticate', body)
       .then((res) => {
-        console.log(res)
-        alert(res.data.success)
+            
         if (res.data.success === 'true') {
           localStorage.setItem('v_', res.data?.message)
           navigate('/')
@@ -53,6 +52,7 @@ export default function SignIn() {
         } else {
           alert('Invalid user credentials')
         }
+
       })
       .catch((err) => {
         alert('Invalid user credentials')
