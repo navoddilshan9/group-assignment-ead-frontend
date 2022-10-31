@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
@@ -16,7 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import RadioBox from '../../components/RadioBox/Title'
 import Gender from '../../components/RadioBox/Gender'
 import Role from '../../components/RadioBox/Role'
-
+import DatePicker from '../../components/DatePicker/DatePicker'
 function Copyright(props) {
   return (
     <Typography
@@ -37,27 +37,107 @@ const theme = createTheme()
 
 export default function Account({ changeStep, step }) {
   const navigate = useNavigate()
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    // const body = {
-    //   lastName,
-    //   password,
-    //   email,
-    // }
-    // axios.post()
-    alert('as')
+  const { id } = useParams()
+
+  const [userDetails, setUserDetails] = useState({
+    userId: '',
+    title: 'MR',
+    gender: 'MALE',
+    lastName: '',
+    initials: '',
+    fullName: '',
+    otherName: '',
+    NIC: '',
+    passportNo: '',
+    birthday: new Date('2022-11-01T21:11:54'),
+    status: 'SINGLE',
+    noDependents: '',
+    address: '',
+    phoneNumber: '',
+    email: '',
+    isActivate: 'true',
+    password: '',
+    role: 'FRONT_DESK',
+    remark: '',
+    createdAt: '',
+  })
+
+  const handleChange = (prop) => (event) => {
+    if (prop === 'birthday') {
+      setUserDetails({ ...userDetails, [prop]: event })
+    } else if (prop === 'address') {
+      setUserDetails({ ...userDetails, [prop]: event })
+      alert(':Asd')
+    } else {
+      setUserDetails({ ...userDetails, [prop]: event.target.value })
+    }
+  }
+  const updateUser = async () => {
+    axios
+      .post('/api/v1/users/update', userDetails, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('v_'), //the token is a variable which holds the token
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        navigate('/users')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
+  const getUserDetails = async () => {
+    await axios
+      .get(`/api/v1/users/getUserById?user_Id=${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('v_'), //the token is a variable which holds the token
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        let currentuser = res.data.message
+        setUserDetails({
+          userId: currentuser?.userId || '',
+          title: currentuser?.title || 'MR',
+          gender: currentuser?.gender || 'MALE',
+          lastName: currentuser?.lastName || '',
+          initials: currentuser?.initials || '',
+          fullName: currentuser?.fullName || '',
+          otherName: currentuser?.otherName || '',
+          NIC: currentuser?.NIC || '',
+          passportNo: currentuser?.passportNo || '',
+          birthday: new Date('2022-11-01T21:11:54'),
+          status: currentuser?.status || 'SINGLE',
+          noDependents: currentuser?.noDependents || '',
+          address: currentuser?.address || '',
+          phoneNumber: currentuser?.phoneNumber || '',
+          email: currentuser?.email || '',
+          isActivate: currentuser?.isActivate || 'true',
+          password: currentuser?.password || '',
+          role: currentuser?.role || 'FRONT_DESK',
+          remark: currentuser?.remark || '',
+          createdAt: currentuser?.createdAt || '',
+        })
+        console.log(currentuser)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  useEffect(() => {
+    getUserDetails()
+  }, [])
   return (
-    <Box component='form' noValidate onSubmit={handleSubmit}>
+    <Box>
       <Typography component='h1' variant='h5'>
         Update Account details
       </Typography>
       <Box>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
-            <RadioBox />
+            <RadioBox handleChange={handleChange} userDetails={userDetails} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -68,6 +148,8 @@ export default function Account({ changeStep, step }) {
               id='initials'
               label='Initials'
               autoFocus
+              value={userDetails.initials}
+              onChange={handleChange('initials')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -78,6 +160,8 @@ export default function Account({ changeStep, step }) {
               label='Last Name'
               name='lastName'
               autoComplete='family-name'
+              value={userDetails.lastName}
+              onChange={handleChange('lastName')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -87,6 +171,8 @@ export default function Account({ changeStep, step }) {
               id='fullName'
               label='Full Name'
               name='fullName'
+              value={userDetails.fullName}
+              onChange={handleChange('fullName')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -96,6 +182,8 @@ export default function Account({ changeStep, step }) {
               id='otherName'
               label='Other Name'
               name='otherName'
+              value={userDetails.otherName}
+              onChange={handleChange('otherName')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -105,6 +193,8 @@ export default function Account({ changeStep, step }) {
               id='nic'
               label='NIC'
               name='nic'
+              value={userDetails.nic}
+              onChange={handleChange('nic')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -114,19 +204,15 @@ export default function Account({ changeStep, step }) {
               id='passport'
               label='Passport No'
               name='passport'
+              value={userDetails.passport}
+              onChange={handleChange('passport')}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              required={true}
-              fullWidth
-              id='birthday'
-              label='Birthday'
-              name='birthday'
-            />
+            <DatePicker handleChange={handleChange} userDetails={userDetails} />
           </Grid>
           <Grid item xs={12} sm={12}>
-            <Gender />
+            <Gender handleChange={handleChange} userDetails={userDetails} />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -135,6 +221,8 @@ export default function Account({ changeStep, step }) {
               id='noDependents'
               label='No of Dependents'
               name='noDependents'
+              value={userDetails.noDependents}
+              onChange={handleChange('noDependents')}
             />
           </Grid>
         </Grid>
@@ -150,6 +238,8 @@ export default function Account({ changeStep, step }) {
               id='street1'
               label='Street 1'
               autoFocus
+              value={userDetails.address.street1}
+              disabled={true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -158,8 +248,10 @@ export default function Account({ changeStep, step }) {
               fullWidth
               id='street2'
               label='Street 2'
-              name='lastName'
+              name='street2'
               autoComplete='family-name'
+              value={userDetails.address.street2}
+              disabled={true}
             />
           </Grid>
           <Grid item xs={6}>
@@ -169,6 +261,8 @@ export default function Account({ changeStep, step }) {
               id='town'
               label='Town'
               name='town'
+              value={userDetails.address.town}
+              disabled={true}
             />
           </Grid>
           <Grid item xs={6}>
@@ -178,6 +272,8 @@ export default function Account({ changeStep, step }) {
               id='city'
               label='City'
               name='city'
+              value={userDetails.address.city}
+              disabled={true}
             />
           </Grid>
           <Grid item xs={12}>
@@ -187,13 +283,15 @@ export default function Account({ changeStep, step }) {
               id='postalCode'
               label='Postal Code'
               name='postalCode'
+              value={userDetails.address.postalCode}
+              disabled={true}
             />
           </Grid>
         </Grid>
       </Box>
       <Box>
         <Grid container spacing={2} sx={{ mt: 3 }}>
-          <Grid item xs={12} sm={12}>
+          {/* <Grid item xs={12} sm={12}>
             <TextField
               required={true}
               fullWidth
@@ -202,6 +300,8 @@ export default function Account({ changeStep, step }) {
               type='email'
               id='email'
               autoComplete='email'
+              value={userDetails.address.email}
+              disabled={true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -213,6 +313,8 @@ export default function Account({ changeStep, step }) {
               type='password'
               id='password'
               autoComplete='new-password'
+              value={userDetails.address.password}
+              disabled={true}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -224,10 +326,12 @@ export default function Account({ changeStep, step }) {
               type='password'
               id='re-password'
               autoComplete='new-password'
+              value={userDetails.address.password}
+              disabled={true}
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} sm={6}>
-            <Role />
+            <Role handleChange={handleChange} userDetails={userDetails} />
           </Grid>
         </Grid>
         <Grid container justifyContent='space-between'>
@@ -236,17 +340,21 @@ export default function Account({ changeStep, step }) {
               fullWidth
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
-              onClick={() => {}}
+              onClick={() => {
+                navigate('/users')
+              }}
             >
               Discard changes
             </Button>
           </Grid>
           <Grid item>
             <Button
-              type='submit'
               fullWidth
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
+              onClick={() => {
+                updateUser()
+              }}
             >
               Update
             </Button>
