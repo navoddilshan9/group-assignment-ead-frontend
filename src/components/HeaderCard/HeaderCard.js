@@ -1,7 +1,11 @@
-import { Card, CardHeader } from '@mui/material'
-import React from 'react'
+import { Button, Card, CardHeader } from '@mui/material'
+import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import UserContext from '../../Utils/UserContext'
 
 const HeaderCard = ({ title, subheader }) => {
+  const navigate = useNavigate()
+  const { user } = useContext(UserContext)
   return (
     <Card
       variant='elevation'
@@ -24,6 +28,21 @@ const HeaderCard = ({ title, subheader }) => {
         title={title}
         subheader={subheader}
       />
+      {user.role != 'LOAN_SECTION' ? (
+        <>
+          <Button
+            sx={{ width: '100%', fontWeight: 'bolder' }}
+            variant='text'
+            onClick={() => {
+              navigate('/register')
+            }}
+          >
+            Add New Employee or AC Holder
+          </Button>
+        </>
+      ) : (
+        <></>
+      )}
     </Card>
   )
 }
