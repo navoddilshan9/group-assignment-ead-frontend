@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Avatar from '@mui/material/Avatar'
@@ -17,18 +17,16 @@ import RadioBox from '../../components/RadioBox/Title'
 import Gender from '../../components/RadioBox/Gender'
 import Role from '../../components/RadioBox/Role'
 
-export default function AccountInfo({ changeStep, step, handleChange }) {
+export default function AccountInfo({
+  changeStep,
+  step,
+  handleChange,
+  userDetails,
+  setPassowrd,
+  setRePassowrd,
+  handleSubmitForm,
+}) {
   const navigate = useNavigate()
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    // const body = {
-    //   lastName,
-    //   password,
-    //   email,
-    // }
-    // axios.post()
-  }
 
   return (
     <>
@@ -49,6 +47,7 @@ export default function AccountInfo({ changeStep, step, handleChange }) {
               type='email'
               id='email'
               autoComplete='email'
+              value={userDetails.email}
               onChange={handleChange('email')}
             />
           </Grid>
@@ -61,6 +60,9 @@ export default function AccountInfo({ changeStep, step, handleChange }) {
               type='password'
               id='password'
               autoComplete='new-password'
+              onChange={(event) => {
+                setPassowrd(event.target.value)
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -72,10 +74,13 @@ export default function AccountInfo({ changeStep, step, handleChange }) {
               type='password'
               id='re-password'
               autoComplete='new-password'
+              onChange={(event) => {
+                setRePassowrd(event.target.value)
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Role />
+            <Role handleChange={handleChange} userDetails={userDetails} />
           </Grid>
         </Grid>
         <Grid container justifyContent='space-between'>

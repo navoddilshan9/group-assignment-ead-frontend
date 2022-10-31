@@ -5,19 +5,19 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 
-export default function Role() {
+export default function Role({ handleChange, userDetails }) {
   const [role, setRole] = useState('FRONT_DESK')
   return (
     <FormControl>
-      <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
+      <FormLabel id='demo-row-radio-buttons-group-label'>
+        Select Your Section
+      </FormLabel>
       <RadioGroup
         row
         aria-labelledby='demo-row-radio-buttons-group-label'
         name='row-radio-buttons-group'
-        value={role}
-        onChange={(event) => {
-          setRole(event.target.value)
-        }}
+        value={userDetails.role}
+        onChange={handleChange('role')}
       >
         <FormControlLabel
           value='FRONT_DESK'

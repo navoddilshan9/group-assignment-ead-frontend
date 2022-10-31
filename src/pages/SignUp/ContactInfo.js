@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Avatar from '@mui/material/Avatar'
@@ -10,25 +10,39 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import RadioBox from '../../components/RadioBox/Title'
-import Gender from '../../components/RadioBox/Gender'
+export default function PersonalInfo({
+  changeStep,
+  setUserDetails,
+  userDetails,
+  handleChange,
+}) {
+  const [address, setAddress] = useState({
+    street1: userDetails.address.street1 || '',
+    street2: userDetails.address.street2 || '',
+    town: userDetails.address.town || '',
+    city: userDetails.address.city || '',
+    postalCode: userDetails.address.postalCode || '',
+  })
 
-export default function PersonalInfo({ changeStep, handleChange }) {
-  const navigate = useNavigate()
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    // const body = {
-    //   lastName,
-    //   password,
-    //   email,
-    // }
-    // axios.post()
+  const handleChangeAdress = (prop) => (event) => {
+    setAddress({ ...address, [prop]: event.target.value })
+    setUserDetails({ ...userDetails, ['address']: address })
   }
-
+  const validateData = () => {
+    if (
+      userDetails.address.street1 == '' ||
+      userDetails.address.postalCode == '' ||
+      userDetails.phoneNumber == '' ||
+      userDetails.town == '' ||
+      userDetails.city == ''
+    ) {
+      console.log(userDetails.address)
+      return false
+    } else {
+      return true
+    }
+  }
   return (
     <>
       <Avatar sx={{ m: 1 }}>
@@ -48,18 +62,19 @@ export default function PersonalInfo({ changeStep, handleChange }) {
               id='street1'
               label='Street 1'
               autoFocus
-              handleChange={handleChange('street1')}
+              value={address.street1}
+              onChange={handleChangeAdress('street1')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              required={true}
               fullWidth
               id='street2'
               label='Street 2'
               name='street2'
               autoComplete='family-name'
-              handleChange={handleChange('street2')}
+              value={address.street2}
+              onChange={handleChangeAdress('street2')}
             />
           </Grid>
           <Grid item xs={6}>
@@ -69,7 +84,8 @@ export default function PersonalInfo({ changeStep, handleChange }) {
               id='town'
               label='Town'
               name='town'
-              handleChange={handleChange('town')}
+              value={address.town}
+              onChange={handleChangeAdress('town')}
             />
           </Grid>
           <Grid item xs={6}>
@@ -79,7 +95,8 @@ export default function PersonalInfo({ changeStep, handleChange }) {
               id='city'
               label='City'
               name='city'
-              handleChange={handleChange('city')}
+              value={address.city}
+              onChange={handleChangeAdress('city')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -89,7 +106,21 @@ export default function PersonalInfo({ changeStep, handleChange }) {
               id='postalCode'
               label='Postal Code'
               name='postalCode'
-              handleChange={handleChange('postalCode')}
+              type='number'
+              value={address.postalCode}
+              onChange={handleChangeAdress('postalCode')}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              required={true}
+              fullWidth
+              id='phoneNumber'
+              label='phone Number'
+              name='phoneNumber'
+              value={userDetails.phoneNumber}
+              onChange={handleChange('phoneNumber')}
             />
           </Grid>
         </Grid>
@@ -108,12 +139,15 @@ export default function PersonalInfo({ changeStep, handleChange }) {
           </Grid>
           <Grid item>
             <Button
-              type='submit'
               fullWidth
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
               onClick={() => {
-                changeStep('plus')
+                if (validateData()) {
+                  changeStep('plus')
+                } else {
+                  alert('Please fill requiled fields')
+                }
               }}
             >
               Next
