@@ -45,7 +45,7 @@ export default function SignIn() {
       .post('/authenticate', body)
       .then((res) => {
         console.log(res)
-        localStorage.setItem('v_', res.data?.jwtToken)
+        localStorage.setItem('v_', res.data?.message)
         navigate('/')
         window.location.reload(false)
       })
