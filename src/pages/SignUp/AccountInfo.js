@@ -17,7 +17,7 @@ import RadioBox from '../../components/RadioBox/Title'
 import Gender from '../../components/RadioBox/Gender'
 import Role from '../../components/RadioBox/Role'
 
-export default function AccountInfo({ changeStep, step }) {
+export default function AccountInfo({ changeStep, step, handleChange }) {
   const navigate = useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -38,7 +38,7 @@ export default function AccountInfo({ changeStep, step }) {
       <Typography component='h1' variant='h5'>
         Account Information
       </Typography>
-      <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Box sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <TextField
@@ -49,6 +49,7 @@ export default function AccountInfo({ changeStep, step }) {
               type='email'
               id='email'
               autoComplete='email'
+              onChange={handleChange('email')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>

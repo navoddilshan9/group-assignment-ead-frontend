@@ -5,7 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 
-export default function Title() {
+export default function Title({ handleChange, userDetails }) {
   const [title, setTitle] = useState('MR')
   return (
     <FormControl>
@@ -14,10 +14,8 @@ export default function Title() {
         row
         aria-labelledby='demo-row-radio-buttons-group-label'
         name='row-radio-buttons-group'
-        value={title}
-        onChange={(event) => {
-          setTitle(event.target.value)
-        }}
+        value={userDetails.title}
+        onChange={handleChange('title')}
       >
         <FormControlLabel value='MR' control={<Radio />} label='Mr.' />
         <FormControlLabel value='MRS' control={<Radio />} label='Mrs.' />

@@ -31,6 +31,7 @@ import ForgetPassword from '../../pages/ForgetPassword/ForgetPassword'
 import Users from '../../pages/Users/Users'
 import Account from '../../pages/User/User'
 import Profile from '../../pages/Profile/Profile'
+import Footer from '../Footer/Footer'
 
 const drawerWidth = 240
 
@@ -85,7 +86,7 @@ function DrawerAppBar(props) {
         <AppBar
           component='nav'
           sx={{
-            background: 'linear-gradient(90deg,#23bacc 0,#238ebf)',
+            background: 'rgba(0,0,0,0.6)',
           }}
         >
           <Toolbar>
@@ -195,6 +196,7 @@ function DrawerAppBar(props) {
           <Route exact path='/profile' element={<Profile />}></Route>
         </Routes>
       </Box>
+      {/* <Footer /> */}
     </Box>
   )
 }

@@ -16,7 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import RadioBox from '../../components/RadioBox/Title'
 import Gender from '../../components/RadioBox/Gender'
 
-export default function PersonalInfo({ changeStep }) {
+export default function PersonalInfo({ changeStep, handleChange }) {
   const navigate = useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -37,7 +37,7 @@ export default function PersonalInfo({ changeStep }) {
       <Typography component='h1' variant='h5'>
         Contact Information
       </Typography>
-      <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Box sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -48,6 +48,7 @@ export default function PersonalInfo({ changeStep }) {
               id='street1'
               label='Street 1'
               autoFocus
+              handleChange={handleChange('street1')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -56,8 +57,9 @@ export default function PersonalInfo({ changeStep }) {
               fullWidth
               id='street2'
               label='Street 2'
-              name='lastName'
+              name='street2'
               autoComplete='family-name'
+              handleChange={handleChange('street2')}
             />
           </Grid>
           <Grid item xs={6}>
@@ -67,6 +69,7 @@ export default function PersonalInfo({ changeStep }) {
               id='town'
               label='Town'
               name='town'
+              handleChange={handleChange('town')}
             />
           </Grid>
           <Grid item xs={6}>
@@ -76,6 +79,7 @@ export default function PersonalInfo({ changeStep }) {
               id='city'
               label='City'
               name='city'
+              handleChange={handleChange('city')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -85,6 +89,7 @@ export default function PersonalInfo({ changeStep }) {
               id='postalCode'
               label='Postal Code'
               name='postalCode'
+              handleChange={handleChange('postalCode')}
             />
           </Grid>
         </Grid>

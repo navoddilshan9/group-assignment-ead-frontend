@@ -1,16 +1,19 @@
+import { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import DrawerAppBar from './components/AppBar/AppBar'
-import Footer from './components/Footer/Footer'
-
+// import { UserProvider } from './Utils/UserContext'
 function App() {
+  const [user, setUser] = useState({
+    userId: 0,
+    role: 'customer',
+  })
   return (
     <>
-      <div style={{ minHeight: '93vh' }}>
+      <div>
         <Router>
           <DrawerAppBar />
         </Router>
       </div>
-      <Footer />
     </>
   )
 }

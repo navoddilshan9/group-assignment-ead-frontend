@@ -21,7 +21,6 @@ export default function Footer() {
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
-        marginTop: '4px',
       }}
     >
       <Box

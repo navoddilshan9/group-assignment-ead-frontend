@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Avatar from '@mui/material/Avatar'
@@ -39,6 +39,39 @@ const theme = createTheme()
 export default function SignUp() {
   const navigate = useNavigate()
   const [step, setStep] = useState(1)
+
+  const [userDetails, setUserDetails] = useState({
+    title: 'MR',
+    gender: 'MALE',
+    lastName: '',
+    initials: '',
+    fullName: '',
+    otherName: '',
+    NIC: '',
+    passportNo: '',
+    birthday: new Date('2022-11-01T21:11:54'),
+    status: '',
+    noDependents: '',
+    address: '',
+    postalCode: '',
+    phoneNumber: '',
+    email: '',
+    isActivate: 'true',
+    password: '',
+    role: '',
+    remark: '',
+    createdAt: '',
+  })
+  useEffect(() => {
+    console.log(userDetails)
+  }, [userDetails])
+  const handleChange = (prop) => (event) => {
+    if (prop === 'birthday') {
+      setUserDetails({ ...userDetails, [prop]: event })
+    } else {
+      setUserDetails({ ...userDetails, [prop]: event.target.value })
+    }
+  }
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -67,7 +100,6 @@ export default function SignUp() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -75,15 +107,28 @@ export default function SignUp() {
         >
           {step === 1 ? (
             <>
-              <PersonalInfo changeStep={changeStep} />
+              <PersonalInfo
+                changeStep={changeStep}
+                handleChange={handleChange}
+                userDetails={userDetails}
+              />
             </>
           ) : step === 2 ? (
             <>
-              <ConatctInfo changeStep={changeStep} />
+              <ConatctInfo
+                changeStep={changeStep}
+                handleChange={handleChange}
+                userDetails={userDetails}
+              />
             </>
           ) : step === 3 ? (
             <>
-              <AccountInfo changeStep={changeStep} step={step} />
+              <AccountInfo
+                changeStep={changeStep}
+                step={step}
+                handleChange={handleChange}
+                userDetails={userDetails}
+              />
             </>
           ) : (
             <></>

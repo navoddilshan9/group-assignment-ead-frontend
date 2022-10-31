@@ -16,7 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import RadioBox from '../../components/RadioBox/Title'
 import Gender from '../../components/RadioBox/Gender'
 import Role from '../../components/RadioBox/Role'
-
+import UserContext from '../../Utils/UserContext'
 function Copyright(props) {
   return (
     <Typography
@@ -37,6 +37,7 @@ const theme = createTheme()
 
 export default function Profile() {
   const navigate = useNavigate()
+  const { user } = React.useContext(UserContext)
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)

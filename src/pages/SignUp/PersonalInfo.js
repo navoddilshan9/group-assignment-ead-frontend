@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import RadioBox from '../../components/RadioBox/Title'
 import Gender from '../../components/RadioBox/Gender'
+import DatePicker from '../../components/DatePicker/DatePicker'
 
 function Copyright(props) {
   return (
@@ -34,7 +35,11 @@ function Copyright(props) {
 
 const theme = createTheme()
 
-export default function PersonalInfo({ changeStep, step }) {
+export default function PersonalInfo({
+  changeStep,
+  handleChange,
+  userDetails,
+}) {
   const navigate = useNavigate()
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -55,10 +60,10 @@ export default function PersonalInfo({ changeStep, step }) {
       <Typography component='h1' variant='h5'>
         Personal Information
       </Typography>
-      <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Box sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
-            <RadioBox />
+            <RadioBox handleChange={handleChange} userDetails={userDetails} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -69,6 +74,8 @@ export default function PersonalInfo({ changeStep, step }) {
               id='initials'
               label='Initials'
               autoFocus
+              value={userDetails.initials}
+              onChange={handleChange('initials')}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -79,6 +86,8 @@ export default function PersonalInfo({ changeStep, step }) {
               label='Last Name'
               name='lastName'
               autoComplete='family-name'
+              value={userDetails.lastName}
+              onChange={handleChange('lastName')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -88,6 +97,8 @@ export default function PersonalInfo({ changeStep, step }) {
               id='fullName'
               label='Full Name'
               name='fullName'
+              value={userDetails.fullName}
+              onChange={handleChange('fullName')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -97,6 +108,8 @@ export default function PersonalInfo({ changeStep, step }) {
               id='otherName'
               label='Other Name'
               name='otherName'
+              value={userDetails.otherName}
+              onChange={handleChange('otherName')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -106,6 +119,8 @@ export default function PersonalInfo({ changeStep, step }) {
               id='nic'
               label='NIC'
               name='nic'
+              value={userDetails.nic}
+              onChange={handleChange('nic')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -115,27 +130,26 @@ export default function PersonalInfo({ changeStep, step }) {
               id='passport'
               label='Passport No'
               name='passport'
+              value={userDetails.passport}
+              onChange={handleChange('passport')}
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              required={true}
-              fullWidth
-              id='birthday'
-              label='Birthday'
-              name='birthday'
-            />
+            <DatePicker handleChange={handleChange} userDetails={userDetails} />
           </Grid>
           <Grid item xs={12} sm={12}>
-            <Gender />
+            <Gender handleChange={handleChange} userDetails={userDetails} />
           </Grid>
           <Grid item xs={12}>
             <TextField
               required={true}
               fullWidth
+              type='number'
               id='noDependents'
               label='No of Dependents'
               name='noDependents'
+              value={userDetails.noDependents}
+              onChange={handleChange('noDependents')}
             />
           </Grid>
         </Grid>
