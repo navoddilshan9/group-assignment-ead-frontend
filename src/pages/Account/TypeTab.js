@@ -114,7 +114,10 @@ export default function Account() {
   };
 
   const updateAccType = () => {
-    HttpService.put(`/api/v1/accTypes/${accType}`)
+    HttpService.put(`/api/v1/accTypes/${accountTypeDetails.accTypeId}`, {
+      type: accType,
+      isActive: isActive,
+    })
       .then((res) => {
         console.log(res.data);
         setAccountTypeDetails(null);
