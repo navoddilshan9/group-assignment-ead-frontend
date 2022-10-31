@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import axios from 'axios'
 
 function Copyright(props) {
   return (
@@ -31,13 +32,26 @@ function Copyright(props) {
 const theme = createTheme()
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate()
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
+    const body = {
+      username: data.get('email'),
       password: data.get('password'),
-    })
+    }
+    console.log(body)
+    await axios
+      .post('/authenticate', body)
+      .then((res) => {
+        console.log(res)
+        localStorage.setItem('v_', res.data?.message)
+        navigate('/')
+        window.location.reload(false)
+      })
+      .catch((err) => {
+        alert('Invalid user credentials')
+      })
   }
 
   return (
@@ -104,11 +118,6 @@ export default function SignIn() {
                   variant='body2'
                 >
                   Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to='/register' style={{ textDecoration: 'none' }}>
-                  {"Don't have an account?"}
                 </Link>
               </Grid>
             </Grid>
