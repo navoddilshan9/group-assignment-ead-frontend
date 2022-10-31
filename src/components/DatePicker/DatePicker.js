@@ -13,7 +13,7 @@ export default function MaterialUIPickers({ userDetails, handleChange }) {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3}>
         <DesktopDatePicker
-          label='Date desktop'
+          label='Birthday'
           inputFormat='MM/dd/yyyy'
           value={userDetails.birthday}
           onChange={handleChange('birthday')}

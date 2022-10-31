@@ -40,18 +40,22 @@ export default function PersonalInfo({
   handleChange,
   userDetails,
 }) {
-  const navigate = useNavigate()
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    // const body = {
-    //   lastName,
-    //   password,
-    //   email,
-    // }
-    // axios.post()
+  const validateData = () => {
+    if (
+      userDetails.initials == '' ||
+      userDetails.fullName == '' ||
+      userDetails.otherName == '' ||
+      userDetails.NIC == '' ||
+      userDetails.passportNo == '' ||
+      userDetails.birthday == '' ||
+      userDetails.noDependents == ''
+    ) {
+      console.log(userDetails)
+      return false
+    } else {
+      return true
+    }
   }
-
   return (
     <>
       <Avatar sx={{ m: 1 }}>
@@ -60,7 +64,7 @@ export default function PersonalInfo({
       <Typography component='h1' variant='h5'>
         Personal Information
       </Typography>
-      <Box sx={{ mt: 3 }}>
+      <Box component='form' sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <RadioBox handleChange={handleChange} userDetails={userDetails} />
@@ -119,19 +123,19 @@ export default function PersonalInfo({
               id='nic'
               label='NIC'
               name='nic'
-              value={userDetails.nic}
-              onChange={handleChange('nic')}
+              value={userDetails.NIC}
+              onChange={handleChange('NIC')}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               required={true}
               fullWidth
-              id='passport'
+              id='passportNo'
               label='Passport No'
-              name='passport'
-              value={userDetails.passport}
-              onChange={handleChange('passport')}
+              name='passportNo'
+              value={userDetails.passportNo}
+              onChange={handleChange('passportNo')}
             />
           </Grid>
           <Grid item xs={12}>
@@ -166,12 +170,15 @@ export default function PersonalInfo({
           </Grid>
           <Grid item>
             <Button
-              type='submit'
               fullWidth
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
               onClick={() => {
-                changeStep('plus')
+                if (validateData()) {
+                  changeStep('plus')
+                } else {
+                  alert('Please fill requiled fields')
+                }
               }}
             >
               Next

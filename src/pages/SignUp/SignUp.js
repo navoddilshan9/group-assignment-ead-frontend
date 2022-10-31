@@ -38,8 +38,10 @@ const theme = createTheme()
 
 export default function SignUp() {
   const navigate = useNavigate()
-  const [step, setStep] = useState(1)
 
+  const [step, setStep] = useState(1)
+  const [password, setPassowrd] = useState(null)
+  const [repassword, setRePassowrd] = useState(null)
   const [userDetails, setUserDetails] = useState({
     title: 'MR',
     gender: 'MALE',
@@ -50,55 +52,59 @@ export default function SignUp() {
     NIC: '',
     passportNo: '',
     birthday: new Date('2022-11-01T21:11:54'),
-    status: '',
+    status: 'SINGLE',
     noDependents: '',
     address: '',
-    postalCode: '',
     phoneNumber: '',
     email: '',
     isActivate: 'true',
     password: '',
-    role: '',
+    role: 'FRONT_DESK',
     remark: '',
     createdAt: '',
   })
-  useEffect(() => {
-    console.log(userDetails)
-  }, [userDetails])
+
   const handleChange = (prop) => (event) => {
     if (prop === 'birthday') {
       setUserDetails({ ...userDetails, [prop]: event })
+    } else if (prop === 'address') {
+      setUserDetails({ ...userDetails, [prop]: event })
+      alert(':Asd')
     } else {
       setUserDetails({ ...userDetails, [prop]: event.target.value })
     }
   }
-  const handleSubmit = async (event) => {
+  const handleSubmitForm = async (event) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    // const body = {
-    //   lastName,
-    //   password,
-    //   email,
-    // }
-    // axios.post()
+    if (password != repassword) {
+      alert('mis')
+    } else {
+      axios
+        .post('/api/v1/users/save', userDetails)
+        .then((res) => {
+          console.log(res)
+          navigate('/login')
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
   const changeStep = (mode) => {
     if (mode === 'plus' && step != 3) {
       setStep((prevStep) => prevStep + 1)
     } else if (mode == 'minus' && step != 1) {
       setStep((prevStep) => prevStep - 1)
-    } else {
-      handleForm()
     }
   }
-  const handleForm = () => {
-    alert('asd')
-  }
+
   return (
     <ThemeProvider theme={theme}>
       <Container component='main'>
         <CssBaseline />
         <Box
+          component='form'
+          onSubmit={handleSubmitForm}
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -117,8 +123,9 @@ export default function SignUp() {
             <>
               <ConatctInfo
                 changeStep={changeStep}
-                handleChange={handleChange}
+                setUserDetails={setUserDetails}
                 userDetails={userDetails}
+                handleChange={handleChange}
               />
             </>
           ) : step === 3 ? (
@@ -128,6 +135,9 @@ export default function SignUp() {
                 step={step}
                 handleChange={handleChange}
                 userDetails={userDetails}
+                setPassowrd={setPassowrd}
+                setRePassowrd={setRePassowrd}
+                handleSubmitForm={handleSubmitForm}
               />
             </>
           ) : (

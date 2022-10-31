@@ -108,7 +108,7 @@ const rearange = (users) => {
   let data = users?.map((user) => {
     return createData(
       user.userId,
-      user.lastName,
+      user.fullName,
       user.isActivate,
       user.createdAt
     )
@@ -164,9 +164,9 @@ export default function PaginationTable({ orders, getOrders }) {
             <TableCell component='th' scope='row' align='center'>
               AC Holder Name
             </TableCell>
-            <TableCell component='th' scope='row' align='left'>
+            {/* <TableCell component='th' scope='row' align='left'>
               Status
-            </TableCell>
+            </TableCell> */}
             <TableCell component='th' scope='row' align='center'>
               Created At
             </TableCell>
@@ -178,7 +178,7 @@ export default function PaginationTable({ orders, getOrders }) {
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row.userId}>
               <TableCell scope='row' align='center'>
                 #{row.userId}
               </TableCell>
@@ -186,9 +186,13 @@ export default function PaginationTable({ orders, getOrders }) {
                 {/* {moment(row.createdAt).utc().format('YYYY-MM-DD')} */}
                 {row.fullName}
               </TableCell>
-              <TableCell align='left'>
-                <IOSSwitche />
-              </TableCell>
+              {/* <TableCell align='left'>
+                <IOSSwitche
+                  userId={row.userId}
+                  status={row?.isActivate}
+                  getUsers={getUsers}
+                />
+              </TableCell> */}
               <TableCell align='center'>2022-10-25</TableCell>
 
               <TableCell style={{ width: 160 }} align='center'>

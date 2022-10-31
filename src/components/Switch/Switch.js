@@ -5,7 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-
+import axios from 'axios'
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
@@ -181,11 +181,34 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
   },
 }))
 
-export default function IOSSwitche() {
+export default function IOSSwitche({ userId, status = true, getUsers }) {
+  const updateUser = async (active) => {
+    const userDetails = {
+      userId: userId,
+      isActivate: active,
+    }
+    axios
+      .post('/api/v1/users/update', userDetails, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('v_'), //the token is a variable which holds the token
+        },
+      })
+      .then((res) => {
+        console.log(res)
+        getUsers()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
   return (
-    <FormGroup>
+    <FormGroup
+      onChange={(event) => {
+        updateUser(event.target.checked)
+      }}
+    >
       <FormControlLabel
-        control={<IOSSwitch defaultChecked />}
+        control={<IOSSwitch checked={status} />}
         // label='iOS style'
       />
     </FormGroup>

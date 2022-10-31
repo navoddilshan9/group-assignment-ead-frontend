@@ -6,7 +6,6 @@ import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 
 export default function Title({ handleChange, userDetails }) {
-  const [title, setTitle] = useState('MR')
   return (
     <FormControl>
       <FormLabel id='demo-row-radio-buttons-group-label'>Title</FormLabel>
