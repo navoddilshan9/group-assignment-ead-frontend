@@ -33,7 +33,7 @@ import Account from '../../pages/User/User'
 import Profile from '../../pages/Profile/Profile'
 import Footer from '../Footer/Footer'
 import UserContext from '../../Utils/UserContext'
-import Accounts from "../../pages/Account/Account";
+import Accounts from '../../pages/Account/Account'
 
 const drawerWidth = 240
 
@@ -55,31 +55,55 @@ function DrawerAppBar(props) {
       </Typography>
       <Divider />
       <List>
-        <ListItem>
-          <ListItemButton sx={{ textAlign: 'center' }}>
-            <ListItemText primary='Loan' />
-          </ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton sx={{ textAlign: "center" }}>
-            <ListItemText primary="Account" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton sx={{ textAlign: 'center' }}>
-            <ListItemText primary='Users' />
-          </ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton sx={{ textAlign: 'center' }}>
-            <ListItemText primary='Login' />
-          </ListItemButton>
-        </ListItem>
-        <ListItem>
-          <ListItemButton sx={{ textAlign: 'center' }}>
-            <ListItemText primary='Profile' />
-          </ListItemButton>
-        </ListItem>
+        {user.userId ? (
+          <>
+            <ListItem>
+              <ListItemButton sx={{ textAlign: 'center' }}>
+                <ListItemText
+                  primary='Logout'
+                  onClick={() => {
+                    localStorage.clear()
+                    navigate('/')
+                    document.location.reload()
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton sx={{ textAlign: 'center' }}>
+                <ListItemText
+                  primary='Account'
+                  onClick={() => {
+                    navigate('/accounts')
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+            <ListItem>
+              <ListItemButton sx={{ textAlign: 'center' }}>
+                <ListItemText
+                  primary='Profile'
+                  onClick={() => {
+                    navigate('/profile')
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem>
+              <ListItemButton sx={{ textAlign: 'center' }}>
+                <ListItemText
+                  primary='login'
+                  onClick={() => {
+                    navigate('/login')
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </>
+        )}
       </List>
     </Box>
   )
@@ -140,17 +164,17 @@ function DrawerAppBar(props) {
                     Logout
                   </Button>
                   <Button
-                sx={{
-                  color: "#fff",
-                  marginRight: "10px",
-                  fontWeight: "bold",
-                }}
-                onClick={() => {
-                  navigate("/accounts");
-                }}
-              >
-                Account
-              </Button>
+                    sx={{
+                      color: '#fff',
+                      marginRight: '10px',
+                      fontWeight: 'bold',
+                    }}
+                    onClick={() => {
+                      navigate('/accounts')
+                    }}
+                  >
+                    Account
+                  </Button>
                   <Button
                     sx={{
                       color: '#fff',
@@ -215,7 +239,7 @@ function DrawerAppBar(props) {
               <Route exact path='/register' element={<SignUp />}></Route>
               <Route exact path='/account/:id' element={<Account />}></Route>
               <Route exact path='/profile' element={<Profile />}></Route>
-              <Route exact path="/accounts" element={<Accounts />}></Route>
+              <Route exact path='/accounts' element={<Accounts />}></Route>
             </>
           ) : (
             <>
