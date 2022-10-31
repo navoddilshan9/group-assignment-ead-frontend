@@ -29,6 +29,8 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 import LoanDataComponent from "../../components/LoanDataComponent/LoanDataComponent";
+import HttpService from "../../httpService.js";
+
 const Loan = () => {
   const { id } = useParams();
   const [loanData, setLoanData] = useState([]);
@@ -101,8 +103,7 @@ const Loan = () => {
       loanStatus: loanStatus,
       interestRate: interestRate,
     };
-    axios
-      .post(`http://localhost:8080/loan`, data)
+    HttpService.post(`/api/v1/loan`, data)
       .then((res) => {
         document.location.reload();
       })
@@ -132,7 +133,7 @@ const Loan = () => {
   }));
   const getLoanDataByUserId = () => {
     axios
-      .get(`http://localhost:8080/loan/user/${id}`)
+      .get(`http://localhost :8080/loan/user/${id}`)
       .then((res) => {
         console.log(res.data);
         setLoanData(res.data);
